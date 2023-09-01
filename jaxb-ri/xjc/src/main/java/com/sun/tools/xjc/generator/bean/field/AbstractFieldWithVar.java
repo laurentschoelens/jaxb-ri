@@ -46,6 +46,10 @@ abstract class AbstractFieldWithVar extends AbstractField {
         field = outline.implClass.field( JMod.PROTECTED,
             getFieldType(), prop.getName(false) );
 
+        if (prop.javadoc != null && prop.javadoc.length() > 0) {
+            field.javadoc().add(prop.javadoc);
+        }
+
         annotate(field);
     }
 

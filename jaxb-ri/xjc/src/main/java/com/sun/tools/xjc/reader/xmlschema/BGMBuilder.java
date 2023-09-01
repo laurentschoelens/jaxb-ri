@@ -398,7 +398,7 @@ public class BGMBuilder extends BindingComponent {
         BindInfo bi = externalBindInfos.get(schemaComponent);
         if(bi!=null)    return bi;
 
-        XSAnnotation annon = schemaComponent.getAnnotation();
+        XSAnnotation annon = _getXSAnnotation(schemaComponent);
         if(annon!=null) {
             bi = (BindInfo)annon.getAnnotation();
             if(bi!=null) {
@@ -409,6 +409,19 @@ public class BGMBuilder extends BindingComponent {
         }
 
         return null;
+    }
+
+    private XSAnnotation _getXSAnnotation(XSComponent schemaComponent) {
+        XSAnnotation annon = schemaComponent.getAnnotation();
+        if (annon != null) {
+            return annon;
+        }
+        if (schemaComponent instanceof XSParticle) {
+            annon = ((XSParticle) schemaComponent).getTerm().getAnnotation();
+        } else if (schemaComponent instanceof XSAttributeUse) {
+            annon = ((XSAttributeUse) schemaComponent).getDecl().getAnnotation();
+        }
+        return annon;
     }
 
     /**

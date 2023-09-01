@@ -18,8 +18,13 @@ import java.util.ResourceBundle;
  * Message resources
  */
 public enum Messages {
-    DEFAULT_GETTER_JAVADOC,     // 1 arg
-    DEFAULT_SETTER_JAVADOC,     // 1 arg
+    DEFAULT_GETTER_JAVADOC,                 // 1 arg
+    DEFAULT_GETTER_RETURN,                  // 0 arg
+    DEFAULT_GETTER_LIST_RETURN,             // 0 arg
+    DEFAULT_SETTER_JAVADOC,                 // 1 arg
+    DEFAULT_GETTER_LIST_JAVADOC,            // 2 args
+    DEFAULT_GETTER_LIST_JAVADOC_TYPES,      // 0 arg
+    DEFAULT_GETTER_LIST_JAVADOC_TYPES_END,  // 0 arg
     ;
 
     private static final ResourceBundle rb = ResourceBundle.getBundle(Messages.class.getName().substring(0, Messages.class.getName().lastIndexOf('.'))+ ".MessageBundle");

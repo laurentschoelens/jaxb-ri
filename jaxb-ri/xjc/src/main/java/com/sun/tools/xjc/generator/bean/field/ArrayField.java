@@ -98,7 +98,9 @@ final class ArrayField extends AbstractListField {
         //     return (retVal);
         // }
         $getAll = writer.declareMethod( exposedType.array(),"get"+prop.getName(true));
-        writer.javadoc().append(prop.javadoc);
+        if (prop.javadoc != null && prop.javadoc.length() > 0) {
+            writer.javadoc().append(prop.javadoc).append("\n\n");
+        }
         body = $getAll.body();
 
         body._if( acc.ref(true).eq(JExpr._null()) )._then()

@@ -25,6 +25,12 @@ enum Messages {
     ILLEGAL_CONSTRUCTOR_PARAM, // 1 arg
     OBJECT_FACTORY_CONFLICT,    // 1 arg
     OBJECT_FACTORY_CONFLICT_RELATED,
+    ENUM_VALUE_METHOD, // 0 arg
+    ENUM_VALUE_METHOD_RETURN, // 0 arg
+    ENUM_FROM_VALUE_METHOD, // 0 arg
+    ENUM_FROM_VALUE_METHOD_PARAM, // 0 arg
+    ENUM_FROM_VALUE_METHOD_RETURN, // 0 arg
+    ENUM_FROM_VALUE_METHOD_THROW, // 0 arg
     ;
 
     private static final ResourceBundle rb = ResourceBundle.getBundle(Messages.class.getPackage().getName() + ".MessageBundle");

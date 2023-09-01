@@ -110,7 +110,7 @@ public class SingleField extends AbstractFieldWithVar {
 
         List<Object> possibleTypes = listPossibleTypes(prop);
         writer.javadoc().addReturn()
-            .append("possible object is\n")
+            .append(Messages.DEFAULT_GETTER_RETURN.toString())
             .append(possibleTypes);
          
         // [RESULT]
@@ -133,6 +133,9 @@ public class SingleField extends AbstractFieldWithVar {
         writer.javadoc().addParam($value)
             .append("allowed object is\n")
             .append(possibleTypes);
+        if (prop.javadoc != null && prop.javadoc.length() > 0) {
+            writer.javadoc().addXdoclet("see #" + $get.name() + "()");
+        }
     }
 
     public final JType getFieldType() {
