@@ -16,6 +16,8 @@ import org.glassfish.jaxb.core.v2.Messages;
 import java.lang.ref.SoftReference;
 import java.util.Collections;
 import java.util.Map;
+import java.util.Objects;
+import java.util.Optional;
 import java.util.WeakHashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -42,7 +44,7 @@ import org.xml.sax.SAXNotSupportedException;
 public class XmlFactory {
 
     private static final Logger LOGGER = Logger.getLogger(XmlFactory.class.getName());
-    private static final Map<Boolean, SoftReference<TransformerFactory>> transformerFactoryCache = Collections.synchronizedMap(new WeakHashMap<>());
+    private static final Map<Integer, Map<Boolean, SoftReference<TransformerFactory>>> transformerFactoryCache = Collections.synchronizedMap(new WeakHashMap<>());
 
     /**
      * If true XML security features when parsing XML documents will be disabled.
@@ -152,14 +154,17 @@ public class XmlFactory {
         if (!useCache) {
             return _createTransformerFactory(disableSecureProcessing);
         }
+        int hashCodeClassLoader = Optional.ofNullable(Thread.currentThread().getContextClassLoader()).map(Objects::hashCode).orElse(0);
         TransformerFactory tf = null;
-        SoftReference<TransformerFactory> tfRef = transformerFactoryCache.get(disableSecureProcessing);
+        Map<Boolean, SoftReference<TransformerFactory>> tfMap = transformerFactoryCache.computeIfAbsent(
+                hashCodeClassLoader, k -> Collections.synchronizedMap(new WeakHashMap<>()));
+        SoftReference<TransformerFactory> tfRef = tfMap.get(disableSecureProcessing);
         if (tfRef != null) {
             tf = tfRef.get();
         }
         if (tf == null) {
             tf = _createTransformerFactory(disableSecureProcessing);
-            transformerFactoryCache.put(disableSecureProcessing, new SoftReference<>(tf));
+            tfMap.put(disableSecureProcessing, new SoftReference<>(tf));
         }
         return tf;
     }
